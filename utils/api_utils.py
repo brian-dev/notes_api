@@ -70,8 +70,6 @@ def create_note(endpoint, title, desc, category, token):
 
 def get_all_notes(endpoint, token):
     resp = get_req(endpoint, token)
-    if resp.status_code != 200:
-        raise Exception(f"Request failed. {resp.json()}")
     return resp.json()
 
 
