@@ -8,70 +8,60 @@ class TestCreateNotes:
     title = f"{generate_string_data(random.randrange(4, 15))}"
     desc = f"{generate_string_data(random.randrange(6, 15))}"
 
-    def test_create_new_note(self, login):
-        token = login['data']['token']
+    def test_create_new_note(self, default_user, strings):
         cat_vals = ['Home', 'Work', 'Personal']
 
         for cat in cat_vals:
-            resp = create_note(self.title, self.desc, cat, token)
-            json_vals = resp.json()
+            resp = create_note(strings['notes'], self.title, self.desc, cat, default_user['data']['token'])
 
-            assert json_vals['success'] is True
-            assert json_vals['status'] == 200
-            assert json_vals['message'] == 'Note successfully created'
-            assert json_vals['data']['title'] == self.title
-            assert json_vals['data']['description'] == self.desc
-            assert json_vals['data']['category'] == cat
-            assert json_vals['data']['completed'] is False
+            assert resp['success'] is True
+            assert resp['status'] == 200
+            assert resp['message'] == 'Note successfully created'
+            assert resp['data']['title'] == self.title
+            assert resp['data']['description'] == self.desc
+            assert resp['data']['category'] == cat
+            assert resp['data']['completed'] is False
 
-    def test_create_note_invalid_title(self, login):
-        token = login['data']['token']
+    def test_create_note_invalid_title(self, default_user, strings):
         title_vals = ['', 'abc', generate_string_data(random.randrange(101, 105))]
 
         for title in title_vals:
-            resp = create_note(title, self.desc, 'Home', token)
-            json_vals = resp.json()
+            resp = create_note(strings['notes'], title, self.desc, 'Home', default_user['data']['token'])
 
-            assert json_vals['success'] is False
-            assert json_vals['status'] == 400
-            assert json_vals['message'] == 'Title must be between 4 and 100 characters'
+            assert resp['success'] is False
+            assert resp['status'] == 400
+            assert resp['message'] == 'Title must be between 4 and 100 characters'
 
-    def test_create_note_invalid_desc(self, login):
-        token = login['data']['token']
+    def test_create_note_invalid_desc(self, default_user, strings):
         desc_vals = ['', 'abc', generate_string_data(random.randrange(1001, 1005))]
 
         for desc in desc_vals:
-            resp = create_note(self.title, desc, 'Home', token)
-            json_vals = resp.json()
+            resp = create_note(strings['notes'], self.title, desc, 'Home', default_user['data']['token'])
 
-            assert json_vals['success'] is False
-            assert json_vals['status'] == 400
-            assert json_vals['message'] == 'Description must be between 4 and 1000 characters'
+            assert resp['success'] is False
+            assert resp['status'] == 400
+            assert resp['message'] == 'Description must be between 4 and 1000 characters'
 
-    def test_create_note_invalid_category(self, login):
-        token = login['data']['token']
+    def test_create_note_invalid_category(self, default_user, strings):
         cat_vals = ['', 'abc']
 
         for cat in cat_vals:
-            resp = create_note(self.title, self.desc, cat, token)
-            json_vals = resp.json()
+            resp = create_note(strings['notes'], self.title, self.desc, cat, default_user['data']['token'])
 
-            assert json_vals['success'] is False
-            assert json_vals['status'] == 400
-            assert json_vals['message'] == 'Category must be one of the categories: Home, Work, Personal'
+            assert resp['success'] is False
+            assert resp['status'] == 400
+            assert resp['message'] == 'Category must be one of the categories: Home, Work, Personal'
 
-    def test_create_note_empty_token(self, login):
-        resp = create_note(self.title, self.desc, 'Home', '')
-        json_vals = resp.json()
+    def test_create_note_empty_token(self, strings):
+        resp = create_note(strings['notes'], self.title, self.desc, 'Home', '')
 
-        assert json_vals['success'] is False
-        assert json_vals['status'] == 401
-        assert json_vals['message'] == 'No authentication token specified in x-auth-token header'
+        assert resp['success'] is False
+        assert resp['status'] == 401
+        assert resp['message'] == 'No authentication token specified in x-auth-token header'
 
-    def test_create_note_invalid_token(self, login):
-        resp = create_note(self.title, self.desc, 'Home', 'invalidToken')
-        json_vals = resp.json()
+    def test_create_note_invalid_token(self, strings):
+        resp = create_note(strings['notes'], self.title, self.desc, 'Home', 'invalidToken')
 
-        assert json_vals['success'] is False
-        assert json_vals['status'] == 401
-        assert json_vals['message'] == 'Access token is not valid or has expired, you will need to login'
+        assert resp['success'] is False
+        assert resp['status'] == 401
+        assert resp['message'] == 'Access token is not valid or has expired, you will need to login'
