@@ -2,10 +2,8 @@ from utils.api_utils import get_req
 
 
 class TestUserProfile:
-    profile_endpoint = 'users/profile'
-
-    def test_get_user_profile(self, login):
-        resp = get_req(self.profile_endpoint, login['data']['token'])
+    def test_get_user_profile(self, default_user, strings):
+        resp = get_req(strings['profile'], default_user['data']['token'])
         json_vals = resp.json()
 
         assert json_vals['success'] is True
@@ -14,16 +12,16 @@ class TestUserProfile:
         assert json_vals['data']['name'] == 'tester'
         assert json_vals['data']['email'] == 'a@example.com'
 
-    def test_empty_auth_token(self, login):
-        resp = get_req(self.profile_endpoint, '')
+    def test_empty_auth_token(self, strings):
+        resp = get_req(strings['profile'], '')
         json_vals = resp.json()
 
         assert json_vals['success'] is False
         assert json_vals['status'] == 401
         assert json_vals['message'] == 'No authentication token specified in x-auth-token header'
 
-    def test_invalid_auth_token(self, login):
-        resp = get_req(self.profile_endpoint, 'invalidToken')
+    def test_invalid_auth_token(self, strings):
+        resp = get_req(strings['profile'], 'invalidToken')
         json_vals = resp.json()
 
         assert json_vals['success'] is False

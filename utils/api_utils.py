@@ -1,7 +1,9 @@
+import os
 import requests
+from dotenv import load_dotenv
 
-
-base_url = 'https://practice.expandtesting.com/notes/api'
+load_dotenv()
+base_url = os.getenv('BASE_URL')
 
 
 def auth_headers(token):
@@ -55,30 +57,31 @@ def delete_user(token):
     return resp.json()
 
 
-def create_note(title, desc, category, token):
-    url = f"{base_url}/notes"
+def create_note(endpoint, title, desc, category, token):
     payload = {
         'title': title,
         'description': desc,
         'category': category
     }
 
-    resp = post_req_with_auth(url, payload, token)
-    if resp.status_code != 200:
-        raise Exception(f"Request failed. {resp.json()}")
+    resp = post_req_with_auth(endpoint, payload, token)
     return resp.json()
 
 
-def get_note(endpoint, token):
+def get_all_notes(endpoint, token):
     resp = get_req(endpoint, token)
     if resp.status_code != 200:
         raise Exception(f"Request failed. {resp.json()}")
     return resp.json()
 
 
+def get_note_by_id(endpoint, note_id, token):
+    note_endpoint = f"{endpoint}/{note_id}"
+    resp = get_req(note_endpoint, token)
+    return resp.json()
+
+
 def del_note(endpoint, note_id, token):
-    endpoint = f"{endpoint}/{note_id}"
-    resp = del_req(endpoint, token)
-    if resp.status_code != 200:
-        raise Exception(f"Request failed. {resp.json()}")
+    note_endpoint = f"{endpoint}/{note_id}"
+    resp = del_req(note_endpoint, token)
     return resp.json()
