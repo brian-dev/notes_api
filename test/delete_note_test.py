@@ -9,7 +9,7 @@ class TestDeleteNote(NoteApi):
     desc = f"{generate_string_data(random.randrange(6, 15))}"
 
     def test_delete_note_resp(self, default_user):
-        new_note = self.create_note('notes', self.title, self.desc, 'Home',default_user[
+        new_note = self.create_note('notes', self.title, self.desc, 'Home', default_user[
             'data']['token'])
         note_id = new_note['data']['id']
 
@@ -49,6 +49,3 @@ class TestDeleteNote(NoteApi):
         assert resp['success'] is False
         assert resp['status'] == 401
         assert resp['message'] == 'Access token is not valid or has expired, you will need to login'
-
-
-

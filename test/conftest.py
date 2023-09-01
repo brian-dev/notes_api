@@ -1,6 +1,5 @@
 import os
 import pytest
-import yaml
 
 from dotenv import load_dotenv
 from utils.user_api import UserApi
