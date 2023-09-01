@@ -1,19 +1,18 @@
 import random
 
 from utils.note_api import NoteApi
-from utils.data_utils import generate_string_data, fetch_endpoints
+from utils.data_utils import generate_string_data
 
 
 class TestCreateNotes(NoteApi):
     title = f"{generate_string_data(random.randrange(4, 15))}"
     desc = f"{generate_string_data(random.randrange(6, 15))}"
-    endpoints = fetch_endpoints()
 
     def test_create_new_note(self, default_user):
         cat_vals = ['Home', 'Work', 'Personal']
 
         for cat in cat_vals:
-            resp = self.create_note(self.endpoints['notes'], self.title, self.desc, cat, default_user[
+            resp = self.create_note('notes', self.title, self.desc, cat, default_user[
                 'data']['token'])
 
             assert resp['success'] is True
@@ -28,7 +27,7 @@ class TestCreateNotes(NoteApi):
         title_vals = ['', 'abc', generate_string_data(random.randrange(101, 105))]
 
         for title in title_vals:
-            resp = self.create_note(self.endpoints['notes'], title, self.desc, 'Home', default_user['data'][
+            resp = self.create_note('notes', title, self.desc, 'Home', default_user['data'][
                 'token'])
 
             assert resp['success'] is False
@@ -39,7 +38,7 @@ class TestCreateNotes(NoteApi):
         desc_vals = ['', 'abc', generate_string_data(random.randrange(1001, 1005))]
 
         for desc in desc_vals:
-            resp = self.create_note(self.endpoints['notes'], self.title, desc, 'Home', default_user['data'][
+            resp = self.create_note('notes', self.title, desc, 'Home', default_user['data'][
                 'token'])
 
             assert resp['success'] is False
@@ -50,7 +49,7 @@ class TestCreateNotes(NoteApi):
         cat_vals = ['', 'abc']
 
         for cat in cat_vals:
-            resp = self.create_note(self.endpoints['notes'], self.title, self.desc, cat, default_user['data'][
+            resp = self.create_note('notes', self.title, self.desc, cat, default_user['data'][
                 'token'])
 
             assert resp['success'] is False
@@ -58,14 +57,14 @@ class TestCreateNotes(NoteApi):
             assert resp['message'] == 'Category must be one of the categories: Home, Work, Personal'
 
     def test_create_note_empty_token(self):
-        resp = self.create_note(self.endpoints['notes'], self.title, self.desc, 'Home', '')
+        resp = self.create_note('notes', self.title, self.desc, 'Home', '')
 
         assert resp['success'] is False
         assert resp['status'] == 401
         assert resp['message'] == 'No authentication token specified in x-auth-token header'
 
     def test_create_note_invalid_token(self):
-        resp = self.create_note(self.endpoints['notes'], self.title, self.desc, 'Home', 'invalidToken')
+        resp = self.create_note('notes', self.title, self.desc, 'Home', 'invalidToken')
 
         assert resp['success'] is False
         assert resp['status'] == 401
