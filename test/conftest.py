@@ -3,9 +3,11 @@ import pytest
 import yaml
 
 from dotenv import load_dotenv
-from utils.api_utils import register_new_user, login_user, delete_user
+from utils.user_api import UserApi
 
 load_dotenv()
+
+user_api = UserApi()
 
 test_user = {
     'name': os.getenv('DEFAULT_NAME'),
@@ -16,17 +18,7 @@ test_user = {
 
 @pytest.fixture(scope='session', autouse=True)
 def register():
-    register_new_user(test_user)
-    with open(f'./yaml/endpoints.yaml') as file_read:
-        file = yaml.load(file_read, Loader=yaml.FullLoader)
-    return file['endpoints']
-
-
-@pytest.fixture(scope='session', autouse=True)
-def strings():
-    with open(f'./yaml/endpoints.yaml') as file_read:
-        file = yaml.load(file_read, Loader=yaml.FullLoader)
-    return file['endpoints']
+    user_api.register_new_user(test_user)
 
 
 @pytest.fixture(scope='session')
@@ -36,7 +28,7 @@ def default_user():
         'password': test_user['password']
     }
 
-    user_info = login_user(user_creds)
+    user_info = user_api.login_user(user_creds)
     yield user_info
 
-    delete_user(user_info['data']['token'])
+    user_api.delete_user(user_info['data']['token'])

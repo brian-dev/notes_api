@@ -1,18 +1,20 @@
 import random
 
-from utils.api_utils import create_note
-from utils.data_utils import generate_string_data
+from utils.note_api import NoteApi
+from utils.data_utils import generate_string_data, fetch_endpoints
 
 
-class TestCreateNotes:
+class TestCreateNotes(NoteApi):
     title = f"{generate_string_data(random.randrange(4, 15))}"
     desc = f"{generate_string_data(random.randrange(6, 15))}"
+    endpoints = fetch_endpoints()
 
-    def test_create_new_note(self, default_user, strings):
+    def test_create_new_note(self, default_user):
         cat_vals = ['Home', 'Work', 'Personal']
 
         for cat in cat_vals:
-            resp = create_note(strings['notes'], self.title, self.desc, cat, default_user['data']['token'])
+            resp = self.create_note(self.endpoints['notes'], self.title, self.desc, cat, default_user[
+                'data']['token'])
 
             assert resp['success'] is True
             assert resp['status'] == 200
@@ -22,45 +24,48 @@ class TestCreateNotes:
             assert resp['data']['category'] == cat
             assert resp['data']['completed'] is False
 
-    def test_create_note_invalid_title(self, default_user, strings):
+    def test_create_note_invalid_title(self, default_user):
         title_vals = ['', 'abc', generate_string_data(random.randrange(101, 105))]
 
         for title in title_vals:
-            resp = create_note(strings['notes'], title, self.desc, 'Home', default_user['data']['token'])
+            resp = self.create_note(self.endpoints['notes'], title, self.desc, 'Home', default_user['data'][
+                'token'])
 
             assert resp['success'] is False
             assert resp['status'] == 400
             assert resp['message'] == 'Title must be between 4 and 100 characters'
 
-    def test_create_note_invalid_desc(self, default_user, strings):
+    def test_create_note_invalid_desc(self, default_user):
         desc_vals = ['', 'abc', generate_string_data(random.randrange(1001, 1005))]
 
         for desc in desc_vals:
-            resp = create_note(strings['notes'], self.title, desc, 'Home', default_user['data']['token'])
+            resp = self.create_note(self.endpoints['notes'], self.title, desc, 'Home', default_user['data'][
+                'token'])
 
             assert resp['success'] is False
             assert resp['status'] == 400
             assert resp['message'] == 'Description must be between 4 and 1000 characters'
 
-    def test_create_note_invalid_category(self, default_user, strings):
+    def test_create_note_invalid_category(self, default_user):
         cat_vals = ['', 'abc']
 
         for cat in cat_vals:
-            resp = create_note(strings['notes'], self.title, self.desc, cat, default_user['data']['token'])
+            resp = self.create_note(self.endpoints['notes'], self.title, self.desc, cat, default_user['data'][
+                'token'])
 
             assert resp['success'] is False
             assert resp['status'] == 400
             assert resp['message'] == 'Category must be one of the categories: Home, Work, Personal'
 
-    def test_create_note_empty_token(self, strings):
-        resp = create_note(strings['notes'], self.title, self.desc, 'Home', '')
+    def test_create_note_empty_token(self):
+        resp = self.create_note(self.endpoints['notes'], self.title, self.desc, 'Home', '')
 
         assert resp['success'] is False
         assert resp['status'] == 401
         assert resp['message'] == 'No authentication token specified in x-auth-token header'
 
-    def test_create_note_invalid_token(self, strings):
-        resp = create_note(strings['notes'], self.title, self.desc, 'Home', 'invalidToken')
+    def test_create_note_invalid_token(self):
+        resp = self.create_note(self.endpoints['notes'], self.title, self.desc, 'Home', 'invalidToken')
 
         assert resp['success'] is False
         assert resp['status'] == 401
