@@ -1,39 +1,40 @@
 import random
 
-from utils.api_utils import get_all_notes, create_note, get_note_by_id
-from utils.data_utils import generate_string_data
+from utils.data_utils import generate_string_data, fetch_endpoints
+from utils.note_api import NoteApi
 
 
-class TestGetNotes:
+class TestGetNotes(NoteApi):
     title = f"{generate_string_data(random.randrange(4, 15))}"
     desc = f"{generate_string_data(random.randrange(6, 15))}"
+    endpoints = fetch_endpoints()
 
-    def test_get_all_user_notes(self, default_user, strings):
-        notes = get_all_notes(strings['notes'], default_user['data']['token'])
+    def test_get_all_user_notes(self, default_user):
+        notes = self.get_all_notes(self.endpoints['notes'], default_user['data']['token'])
 
         assert notes['success'] is True
         assert notes['status'] == 200
         assert notes['message'] == 'Notes successfully retrieved'
 
-    def test_get_all_user_notes_empty_token(self, default_user, strings):
-        notes = get_all_notes(strings['notes'], '')
+    def test_get_all_user_notes_empty_token(self, default_user):
+        notes = self.get_all_notes(self.endpoints['notes'], '')
 
         assert notes['success'] is False
         assert notes['status'] == 401
         assert notes['message'] == 'No authentication token specified in x-auth-token header'
 
-    def test_get_all_user_notes_invalid_token(self, default_user, strings):
-        notes = get_all_notes(strings['notes'], 'invalidToken')
+    def test_get_all_user_notes_invalid_token(self, default_user):
+        notes = self.get_all_notes(self.endpoints['notes'], 'invalidToken')
 
         assert notes['success'] is False
         assert notes['status'] == 401
         assert notes['message'] == 'Access token is not valid or has expired, you will need to login'
 
-    def test_get_note_by_id(self, default_user, strings):
-        new_note = create_note(strings['notes'], self.title, self.desc, 'Work', default_user['data']['token'])
+    def test_get_note_by_id(self, default_user):
+        new_note = self.create_note(self.endpoints['notes'], self.title, self.desc, 'Work', default_user['data']['token'])
         note_id = new_note['data']['id']
 
-        resp = get_note_by_id(strings['notes'], note_id, default_user['data']['token'])
+        resp = self.get_note_by_id(self.endpoints['notes'], note_id, default_user['data']['token'])
 
         assert resp['success'] is True
         assert resp['status'] == 200
@@ -43,21 +44,21 @@ class TestGetNotes:
         assert resp['data']['category'] == 'Work'
         assert resp['data']['completed'] is False
 
-    def get_note_by_id_empty_token(self, default_user, strings):
-        new_note = create_note(strings['notes'], self.title, self.desc, 'Work', default_user['data']['token'])
+    def get_note_by_id_empty_token(self, default_user):
+        new_note = self.create_note(self.endpoints['notes'], self.title, self.desc, 'Work', default_user['data']['token'])
         note_id = new_note['data']['id']
 
-        resp = get_note_by_id(strings['notes'], note_id, '')
+        resp = self.get_note_by_id(self.endpoints['notes'], note_id, '')
 
         assert resp['success'] is False
         assert resp['status'] == 401
         assert resp['message'] == 'No authentication token specified in x-auth-token header'
 
-    def get_note_by_id_invalid_token(self, default_user, strings):
-        new_note = create_note(strings['notes'], self.title, self.desc, 'Work', default_user['data']['token'])
+    def get_note_by_id_invalid_token(self, default_user):
+        new_note = self.create_note(self.endpoints['notes'], self.title, self.desc, 'Work', default_user['data']['token'])
         note_id = new_note['data']['id']
 
-        resp = get_note_by_id(strings['notes'], note_id, 'invalidToken')
+        resp = self.get_note_by_id(self.endpoints['notes'], note_id, 'invalidToken')
 
         assert resp['success'] is False
         assert resp['status'] == 401
