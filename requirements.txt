@@ -1,4 +1,4 @@
 requests~=2.28.2
 jsonschema
 pytest~=7.2.1
-dotenv
+python-dotenv
