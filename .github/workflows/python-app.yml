@@ -9,6 +9,12 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  BASE_URL: $BASE_URL
+  DEFAULT_NAME: $DEFAULT_NAME
+  DEFAULT_EMAIL: $DEFAULT_EMAIL
+  DEFAULT_PASSWORD: $DEFAULT_PASSWORD
+
 permissions:
   contents: read
 
