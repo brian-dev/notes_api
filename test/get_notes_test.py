@@ -62,4 +62,3 @@ class TestGetNotes(NoteApi):
         assert resp['success'] is False
         assert resp['status'] == 401
         assert resp['message'] == 'Access token is not valid or has expired, you will need to login'
-
