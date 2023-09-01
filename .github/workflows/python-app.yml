@@ -10,10 +10,10 @@ on:
     branches: [ "main" ]
 
 env:
-  BASE_URL: ${{env.BASE_URL}}
-  DEFAULT_NAME: ${{env.DEFAULT_NAME}}
-  DEFAULT_EMAIL: ${{env.DEFAULT_EMAIL}}
-  DEFAULT_PASSWORD: ${{env.DEFAULT_PASSWORD}}
+  BASE_URL: ${{secrets.BASE_URL}}
+  DEFAULT_NAME: ${{secrets.DEFAULT_NAME}}
+  DEFAULT_EMAIL: ${{secrets.DEFAULT_EMAIL}}
+  DEFAULT_PASSWORD: ${{secrets.DEFAULT_PASSWORD}}
 
 permissions:
   contents: read
