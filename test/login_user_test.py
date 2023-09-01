@@ -1,16 +1,15 @@
 import random
 
-from utils.base_api import BaseApi
-from utils.data_utils import generate_string_data, fetch_endpoints
+from utils.data_utils import generate_string_data
+from utils.user_api import UserApi
 
 
-class TestLoginUser(BaseApi):
+class TestLoginUser(UserApi):
     email = f"{generate_string_data(random.randrange(4, 15))}@{generate_string_data(random.randrange(4, 15))}.com"
     password = f"{generate_string_data(random.randrange(6, 15))}"
     invalid_email_string = 'A valid email address is required'
     invalid_password_string = 'Password must be between 6 and 30 characters'
     incorrect_password_string = 'Incorrect email address or password'
-    endpoints = fetch_endpoints()
 
     def test_user_login(self, default_user):
         assert default_user['success'] is True
@@ -27,12 +26,11 @@ class TestLoginUser(BaseApi):
                 "password": self.password
             }
 
-            resp = self.post_req(self.endpoints['login'], payload)
-            json_vals = resp.json()
+            resp = self.login_user('login', payload)
 
-            assert json_vals['success'] is False
-            assert json_vals['status'] == 400
-            assert json_vals['message'] == self.invalid_email_string
+            assert resp['success'] is False
+            assert resp['status'] == 400
+            assert resp['message'] == self.invalid_email_string
 
     def test_invalid_password(self):
         password_vals = ['', 'abcde', generate_string_data(random.randrange(31, 35))]
@@ -42,12 +40,11 @@ class TestLoginUser(BaseApi):
                 "password": password
             }
 
-            resp = self.post_req(self.endpoints['login'], payload)
-            json_vals = resp.json()
+            resp = self.login_user('login', payload)
 
-            assert json_vals['success'] is False
-            assert json_vals['status'] == 400
-            assert json_vals['message'] == self.invalid_password_string
+            assert resp['success'] is False
+            assert resp['status'] == 400
+            assert resp['message'] == self.invalid_password_string
 
     def test_incorrect_password(self):
         payload = {
@@ -55,9 +52,8 @@ class TestLoginUser(BaseApi):
             "password": 'incorrectPassword'
         }
 
-        resp = self.post_req(self.endpoints['login'], payload)
-        json_vals = resp.json()
+        resp = self.login_user('login', payload)
 
-        assert json_vals['success'] is False
-        assert json_vals['status'] == 401
-        assert json_vals['message'] == self.incorrect_password_string
+        assert resp['success'] is False
+        assert resp['status'] == 401
+        assert resp['message'] == self.incorrect_password_string

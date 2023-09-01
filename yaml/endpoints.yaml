@@ -3,3 +3,4 @@ endpoints:
   login: 'users/login'
   register: 'users/register'
   profile: 'users/profile'
+  delete: 'users/delete-account'

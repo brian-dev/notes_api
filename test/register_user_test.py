@@ -1,11 +1,10 @@
 import random
 
-# from utils.api_utils import post_req
-from utils.base_api import BaseApi
-from utils.data_utils import generate_string_data, fetch_endpoints
+from utils.data_utils import generate_string_data
+from utils.user_api import UserApi
 
 
-class TestRegisterUser(BaseApi):
+class TestRegisterUser(UserApi):
     email = f"{generate_string_data(random.randrange(4, 15))}@{generate_string_data(random.randrange(4, 15))}.com"
     name = f"{generate_string_data(random.randrange(4, 15))}"
     password = f"{generate_string_data(random.randrange(6, 15))}"
@@ -14,7 +13,6 @@ class TestRegisterUser(BaseApi):
     invalid_password_string = 'Password must be between 6 and 30 characters'
     success_string = 'User account created successfully'
     duplicate_user_string = 'An account already exists with the same email address'
-    endpoints = fetch_endpoints()
 
     def test_register_new_user(self):
         payload = {
@@ -23,17 +21,15 @@ class TestRegisterUser(BaseApi):
             "password": self.password
         }
 
-        resp = self.post_req(self.endpoints['register'], payload)
-        json_vals = resp.json()
+        resp = self.register_new_user('register', payload)
 
-        assert json_vals['success'] is True
-        assert json_vals['status'] == 201
-        assert json_vals['message'] == self.success_string
-        assert json_vals['data']['name'] == self.name
-        assert json_vals['data']['email'] == self.email
+        assert resp['success'] is True
+        assert resp['status'] == 201
+        assert resp['message'] == self.success_string
+        assert resp['data']['name'] == self.name
+        assert resp['data']['email'] == self.email
 
     def test_register_duplicate_email(self):
-        resp = ''
         payload = {
             "email": 'dupe@example.com',
             "name": self.name,
@@ -41,13 +37,11 @@ class TestRegisterUser(BaseApi):
         }
 
         for _ in range(2):
-            resp = self.post_req(self.endpoints['register'], payload)
+            resp = self.register_new_user('register', payload)
 
-        json_vals = resp.json()
-
-        assert json_vals['success'] is False
-        assert json_vals['status'] == 409
-        assert json_vals['message'] == self.duplicate_user_string
+        assert resp['success'] is False
+        assert resp['status'] == 409
+        assert resp['message'] == self.duplicate_user_string
 
     def test_register_invalid_email(self):
         email_vals = ['invalid', '.com', 'invalid@', '']
@@ -58,12 +52,11 @@ class TestRegisterUser(BaseApi):
                 "password": self.password
             }
 
-            resp = self.post_req(self.endpoints['register'], payload)
-            json_vals = resp.json()
+            resp = self.register_new_user('register', payload)
 
-            assert json_vals['success'] is False
-            assert json_vals['status'] == 400
-            assert json_vals['message'] == self.invalid_email_string
+            assert resp['success'] is False
+            assert resp['status'] == 400
+            assert resp['message'] == self.invalid_email_string
 
     def test_register_invalid_name(self):
         name_vals = ['', 'abc', generate_string_data(random.randrange(31, 35))]
@@ -74,12 +67,11 @@ class TestRegisterUser(BaseApi):
                 "password": self.password
             }
 
-            resp = self.post_req(self.endpoints['register'], payload)
-            json_vals = resp.json()
+            resp = self.register_new_user('register', payload)
 
-            assert json_vals['success'] is False
-            assert json_vals['status'] == 400
-            assert json_vals['message'] == self.invalid_name_string
+            assert resp['success'] is False
+            assert resp['status'] == 400
+            assert resp['message'] == self.invalid_name_string
 
     def test_register_invalid_password(self):
         password_vals = ['', 'abcde', generate_string_data(random.randrange(31, 35))]
@@ -90,9 +82,8 @@ class TestRegisterUser(BaseApi):
                 "password": password
             }
 
-            resp = self.post_req(self.endpoints['register'], payload)
-            json_vals = resp.json()
+            resp = self.register_new_user('register', payload)
 
-            assert json_vals['success'] is False
-            assert json_vals['status'] == 400
-            assert json_vals['message'] == self.invalid_password_string
+            assert resp['success'] is False
+            assert resp['status'] == 400
+            assert resp['message'] == self.invalid_password_string
