@@ -24,3 +24,7 @@ class UserApi(BaseApi):
     def get_user_profile(self, endpoint, token):
         resp = self.get_req(self.endpoints[endpoint], token)
         return resp.json()
+
+    def update_user_profile(self, endpoint, payload, token):
+        resp = self.patch_req_with_auth(self.endpoints[endpoint], payload, token)
+        return resp.json()

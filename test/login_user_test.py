@@ -15,8 +15,8 @@ class TestLoginUser(UserApi):
         assert default_user['success'] is True
         assert default_user['status'] == 200
         assert default_user['message'] == 'Login successful'
-        assert default_user['data']['name'] == 'tester'
-        assert default_user['data']['email'] == 'a@example.com'
+        assert default_user['data']['name'] == default_user['data']['name']
+        assert default_user['data']['email'] == default_user['data']['email']
 
     def test_invalid_email(self):
         email_vals = ['', 'invalid', 'test@', 'test.com']

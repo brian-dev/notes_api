@@ -13,6 +13,22 @@ def generate_string_data(length):
     return str(''.join(random.choices(string.ascii_lowercase + string.digits, k=length)))
 
 
+def generate_number_data(length):
+    return str(''.join(random.choices(string.digits, k=length)))
+
+
+def generate_user_payload():
+    name = generate_string_data(random.randrange(4, 15))
+    email = generate_string_data(random.randrange(4, 15))
+    payload = {
+        'name': name,
+        'email': f"{email}@example.com",
+        'password': 'password'
+    }
+
+    return payload
+
+
 def fetch_endpoints():
     with open('./yaml/endpoints.yaml') as file_read:
         file = yaml.load(file_read, Loader=yaml.FullLoader)

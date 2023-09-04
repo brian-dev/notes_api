@@ -8,8 +8,8 @@ class TestUserProfile(UserApi):
         assert resp['success'] is True
         assert resp['status'] == 200
         assert resp['message'] == 'Profile successful'
-        assert resp['data']['name'] == 'tester'
-        assert resp['data']['email'] == 'a@example.com'
+        assert resp['data']['name'] == default_user['data']['name']
+        assert resp['data']['email'] == default_user['data']['email']
 
     def test_empty_auth_token(self):
         resp = self.get_user_profile('profile', '')

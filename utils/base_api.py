@@ -26,3 +26,7 @@ class BaseApi:
     def get_req(self, endpoint, token):
         url = f"{self.base_url}/{endpoint}"
         return requests.get(url, headers=self.auth_headers(token))
+
+    def patch_req_with_auth(self, endpoint, payload, token):
+        url = f"{self.base_url}/{endpoint}"
+        return requests.patch(url, payload, headers=self.auth_headers(token))
