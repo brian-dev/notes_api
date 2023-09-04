@@ -1,14 +1,8 @@
-import os
 import time
-
 import pytest
-
-from dotenv import load_dotenv
 
 from utils.data_utils import generate_user_payload
 from utils.user_api import UserApi
-
-load_dotenv()
 
 user_api = UserApi()
 test_user = generate_user_payload()
