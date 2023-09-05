@@ -4,13 +4,13 @@
 name: Python API Test Demo
 
 on:
-  [workflow_dispatch]
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
   schedule:
     - cron: '5 2 * * SUN'
+  workflow_dispatch:
 
 env:
   BASE_URL: ${{secrets.BASE_URL}}
