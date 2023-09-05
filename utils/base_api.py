@@ -16,6 +16,10 @@ class BaseApi:
         url = f"{self.base_url}/{endpoint}"
         return requests.post(url, payload)
 
+    def get_req(self, endpoint):
+        url = f"{self.base_url}/{endpoint}"
+        return requests.get(url)
+
     def post_req_with_auth(self, endpoint, payload, token):
         url = f"{self.base_url}/{endpoint}"
         return requests.post(url, payload, headers=auth_headers(token))
@@ -24,7 +28,7 @@ class BaseApi:
         url = f"{self.base_url}/{endpoint}"
         return requests.delete(url, headers=auth_headers(token))
 
-    def get_req(self, endpoint, token):
+    def get_req_with_auth(self, endpoint, token):
         url = f"{self.base_url}/{endpoint}"
         return requests.get(url, headers=auth_headers(token))
 

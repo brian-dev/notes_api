@@ -2,18 +2,24 @@ import time
 import pytest
 
 from utils.data_utils import generate_user_payload
+from utils.system_api import SystemApi
 from utils.user_api import UserApi
 
 user_api = UserApi()
+sys_api = SystemApi()
 test_user = generate_user_payload()
 update_user_creds = generate_user_payload()
 
 
 @pytest.fixture(scope='session', autouse=True)
 def register():
-    user_api.register_new_user('register', test_user)
-    time.sleep(1)
-    user_api.register_new_user('register', update_user_creds)
+    health_status = sys_api.sys_check('health')
+    if health_status.status_code == 200:
+        user_api.register_new_user('register', test_user)
+        time.sleep(1)
+        user_api.register_new_user('register', update_user_creds)
+    else:
+        raise Exception(f"System might be down. System returned {health_status}")
 
 
 @pytest.fixture(scope='session')

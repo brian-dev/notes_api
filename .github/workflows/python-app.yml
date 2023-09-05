@@ -4,16 +4,16 @@
 name: Python API Test Demo
 
 on:
+  workflow_dispatch
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  schedule:
+    - cron: '5 2 * * SUN'
 
 env:
   BASE_URL: ${{secrets.BASE_URL}}
-  DEFAULT_NAME: ${{secrets.DEFAULT_NAME}}
-  DEFAULT_EMAIL: ${{secrets.DEFAULT_EMAIL}}
-  DEFAULT_PASSWORD: ${{secrets.DEFAULT_PASSWORD}}
 
 permissions:
   contents: read
