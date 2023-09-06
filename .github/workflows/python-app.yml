@@ -14,8 +14,6 @@ on:
 
 env:
   BASE_URL: ${{ secrets.BASE_URL }}
-  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 permissions:
   contents: read
@@ -65,6 +63,8 @@ jobs:
         role-skip-session-tagging: true
         aws-region: us-east-1
         role-to-assume: arn:aws:iam::684701280419:role/ci-role
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - name: Copy files to the test website with the AWS CLI
       run: |
         aws s3 sync allure-results/allure-allure-results s3://demo-allure-results/
