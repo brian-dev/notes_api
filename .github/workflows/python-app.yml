@@ -69,4 +69,5 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{secrets.AWS_DEFAULT_REGION }}
       run: |
+        aws configure list
         aws s3 sync allure-report s3://demo-allure-results/
