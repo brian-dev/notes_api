@@ -14,9 +14,6 @@ on:
 
 env:
   BASE_URL: ${{ secrets.BASE_URL }}
-  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: ${{secrets.AWS_DEFAULT_REGION }}
 
 permissions:
   contents: read
@@ -67,5 +64,9 @@ jobs:
 #        aws-region: us-east-1
 #        role-to-assume: arn:aws:iam::684701280419:role/ci-role
     - name: Copy files to the test website with the AWS CLI
+      env:
+        AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{secrets.AWS_DEFAULT_REGION }}
       run: |
-        aws s3 sync allure-results/allure-allure-results s3://demo-allure-results/
+        aws s3 sync allure-report s3://demo-allure-results/
