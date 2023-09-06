@@ -25,6 +25,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
     - uses: actions/checkout@v3
@@ -61,6 +64,14 @@ jobs:
 #        gh_pages: gh-pages
         allure_report: allure-report
         allure_history: allure-history
-    - name: Upload to S3 bucket
+
+    - name: AWS Checkout
+      uses: actions/checkout@v3
+    - name: Configure AWS credentials from Test account
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        role-to-assume: arn:aws:iam::111111111111:role/my-github-actions-role-test
+        aws-region: us-east-1
+    - name: Copy files to the test website with the AWS CLI
       run: |
         aws s3 sync allure-results/allure-allure-results s3://demo-allure-results/
