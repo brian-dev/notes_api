@@ -74,4 +74,4 @@ jobs:
         aws-region: us-east-1
     - name: Copy files to the test website with the AWS CLI
       run: |
-        aws s3 sync allure-results/allure-allure-results s3://demo-allure-results/
+        aws s3 cp allure-results/allure-allure-results s3://demo-allure-results/
