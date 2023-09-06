@@ -3,3 +3,4 @@ jsonschema
 pytest~=7.2.1
 python-dotenv
 pyyaml
+allure-pytest

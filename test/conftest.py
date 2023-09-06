@@ -14,7 +14,7 @@ update_user_creds = generate_user_payload()
 @pytest.fixture(scope='session', autouse=True)
 def register():
     health_status = sys_api.sys_check('health')
-    if health_status.status_code == 200:
+    if health_status['status'] == 200:
         user_api.register_new_user('register', test_user)
         time.sleep(1)
         user_api.register_new_user('register', update_user_creds)
