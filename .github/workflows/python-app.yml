@@ -63,10 +63,8 @@ jobs:
     - name: Configure AWS credentials from Test account
       uses: aws-actions/configure-aws-credentials@v3
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        role-to-assume: arn:aws:iam::684701280419:user/ci-reporter
         aws-region: us-east-1
+        role-to-assume: arn:aws:iam::684701280419:user/ci-reporter
     - name: Copy files to the test website with the AWS CLI
       run: |
         aws s3 sync allure-results/allure-allure-results s3://demo-allure-results/
