@@ -46,7 +46,7 @@ jobs:
 #    - name: Test with pytest
 #      run: |
 #        pytest
-    - name: Test marketplace action
+    - name: Generate Test Report
       uses: simple-elf/allure-report-action@master
       if: always()
       id: allure-report
@@ -63,5 +63,4 @@ jobs:
         aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
     - name: Copy files to the test website with the AWS CLI
       run: |
-        aws configure list
         aws s3 sync allure-report s3://demo-allure-results/
