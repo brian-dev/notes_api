@@ -1,5 +1,4 @@
 import random
-import requests
 
 from utils.data_utils import generate_string_data, generate_number_data
 from utils.user_api import UserApi
