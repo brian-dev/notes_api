@@ -45,7 +45,7 @@ jobs:
     - name: Test on schedule with pytest
 #      if: ${{ github.event_name == 'schedule' }}
       run: |
-        pytest --alluredir=allure/results
+        pytest --alluredir=allure-report
         
 #    - name: Test with pytest
 #      run: |
@@ -54,7 +54,7 @@ jobs:
     - name: Generate Test Report
       uses: simple-elf/allure-report-action@master
       if: always()
-      id: allure_report
+      id: allure-report
       with:
         gh_pages: allure/history
         allure_results: allure/results
