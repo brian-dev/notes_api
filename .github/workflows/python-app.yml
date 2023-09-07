@@ -67,7 +67,7 @@ jobs:
         
     - name: Commit history
       run: |
-        git add /allure-history
+        git add .
         git commit -m 'add history'
         git push origin main
         
