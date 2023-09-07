@@ -56,21 +56,9 @@ jobs:
       if: always()
       id: allure-report
       with:
-        gh_pages: allure-report/history
         allure_results: allure-results
         allure_report: allure-report
         allure_history: allure-report/history
-        
-    - name: Configure Git
-      run: |
-        git config user.name "GitHub Actions Bot"
-        git config user.email "<>"
-        
-    - name: Commit history
-      run: |
-        git add allure/history
-        git commit -am 'add history'
-        git push origin/${{ github.ref_name }}
         
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v3
