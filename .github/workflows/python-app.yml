@@ -54,7 +54,7 @@ jobs:
     - name: Generate Test Report
       uses: simple-elf/report-action@master
       if: always()
-      id: allure/report
+      id: allure_report
       with:
         allure_results: allure/results
         allure_report: allure/report
