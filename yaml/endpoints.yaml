@@ -1,4 +1,5 @@
 endpoints:
+  health: 'health-check'
   notes: 'notes'
   login: 'users/login'
   register: 'users/register'

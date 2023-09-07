@@ -19,14 +19,14 @@ class NoteApi(BaseApi):
     def get_all_notes(self, endpoint, token):
         api_endpoint = self.endpoints[endpoint]
 
-        resp = self.get_req(api_endpoint, token)
+        resp = self.get_req_with_auth(api_endpoint, token)
         return resp.json()
 
     def get_note_by_id(self, endpoint, note_id, token):
         api_endpoint = self.endpoints[endpoint]
         note_endpoint = f"{api_endpoint}/{note_id}"
 
-        resp = self.get_req(note_endpoint, token)
+        resp = self.get_req_with_auth(note_endpoint, token)
         return resp.json()
 
     def del_note(self, endpoint, note_id, token):
