@@ -69,7 +69,7 @@ jobs:
       run: |
         git add allure/history
         git commit -am 'add history'
-        git push origin/main
+        git push origin/${{ github.ref_name }}
         
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v3
