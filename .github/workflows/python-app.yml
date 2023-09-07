@@ -67,6 +67,7 @@ jobs:
         
     - name: Commit history
       run: |
+        git add allure/
         git commit -am 'add history'
         git push
         
