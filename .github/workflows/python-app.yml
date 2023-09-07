@@ -45,7 +45,7 @@ jobs:
     - name: Test on schedule with pytest
 #      if: ${{ github.event_name == 'schedule' }}
       run: |
-        pytest --alluredir=allure-results
+        pytest --alluredir=allure/results
         
 #    - name: Test with pytest
 #      run: |
