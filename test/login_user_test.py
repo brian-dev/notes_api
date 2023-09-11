@@ -1,5 +1,7 @@
 import random
 
+import allure
+
 from utils.data_utils import generate_string_data
 from utils.user_api import UserApi
 
@@ -11,6 +13,7 @@ class TestLoginUser(UserApi):
     invalid_password_string = 'Password must be between 6 and 30 characters'
     incorrect_password_string = 'Incorrect email address or password'
 
+    @allure.feature('user_login')
     def test_user_login(self, default_user):
         assert default_user['success'] is True
         assert default_user['status'] == 200
@@ -18,6 +21,7 @@ class TestLoginUser(UserApi):
         assert default_user['data']['name'] == default_user['data']['name']
         assert default_user['data']['email'] == default_user['data']['email']
 
+    @allure.feature('user_login')
     def test_invalid_email(self):
         email_vals = ['', 'invalid', 'test@', 'test.com']
         for email in email_vals:
@@ -32,6 +36,7 @@ class TestLoginUser(UserApi):
             assert resp['status'] == 400
             assert resp['message'] == self.invalid_email_string
 
+    @allure.feature('user_login')
     def test_invalid_password(self):
         password_vals = ['', 'abcde', generate_string_data(random.randrange(31, 35))]
         for password in password_vals:
@@ -46,6 +51,7 @@ class TestLoginUser(UserApi):
             assert resp['status'] == 400
             assert resp['message'] == self.invalid_password_string
 
+    @allure.feature('user_login')
     def test_incorrect_password(self):
         payload = {
             "email": self.email,
