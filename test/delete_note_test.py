@@ -1,5 +1,7 @@
 import random
 
+import allure
+
 from utils.data_utils import generate_string_data
 from utils.note_api import NoteApi
 
@@ -8,6 +10,7 @@ class TestDeleteNote(NoteApi):
     title = f"{generate_string_data(random.randrange(4, 15))}"
     desc = f"{generate_string_data(random.randrange(6, 15))}"
 
+    @allure.feature('delete_note')
     def test_delete_note_resp(self, default_user):
         new_note = self.create_note('notes', self.title, self.desc, 'Home', default_user[
             'data']['token'])
@@ -19,6 +22,7 @@ class TestDeleteNote(NoteApi):
         assert note_to_delete['status'] == 200
         assert note_to_delete['message'] == 'Note successfully deleted'
 
+    @allure.feature('delete_note')
     def test_delete_note_exists(self, default_user):
         new_note = self.create_note('notes', self.title, self.desc, 'Home', default_user['data']['token'])
         note_id = new_note['data']['id']
@@ -30,6 +34,7 @@ class TestDeleteNote(NoteApi):
         assert deleted_note['status'] == 404
         assert deleted_note['message'] == 'No note was found with the provided ID, Maybe it was deleted'
 
+    @allure.feature('delete_note')
     def test_delete_empty_token(self, default_user):
         new_note = self.create_note('notes', self.title, self.desc, 'Home', default_user['data']['token'])
         note_id = new_note['data']['id']
@@ -40,6 +45,7 @@ class TestDeleteNote(NoteApi):
         assert resp['status'] == 401
         assert resp['message'] == 'No authentication token specified in x-auth-token header'
 
+    @allure.feature('delete_note')
     def test_delete_invalid_token(self, default_user):
         new_note = self.create_note('notes', self.title, self.desc, 'Home', default_user['data']['token'])
         note_id = new_note['data']['id']

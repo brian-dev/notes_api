@@ -1,5 +1,7 @@
 import random
 
+import allure
+
 from utils.data_utils import generate_string_data, generate_number_data
 from utils.user_api import UserApi
 
@@ -7,6 +9,7 @@ from utils.user_api import UserApi
 class TestUpdateUserProfile(UserApi):
     profile_endpoint = 'users/profile'
 
+    @allure.feature('update_user_profile')
     def test_update_user_name(self, update_user):
         updated_name = generate_string_data(random.randrange(4, 15))
         updated_phone = generate_number_data(random.randrange(8, 20))
