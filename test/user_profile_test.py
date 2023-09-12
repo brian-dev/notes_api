@@ -1,12 +1,13 @@
 import allure
 
-from utils.user_api import UserApi
+from python_api.conftest import base_api
+from python_api.utils.user_api import UserApi
 
 
 class TestUserProfile(UserApi):
     @allure.feature('user_profile')
     def test_get_user_profile(self, default_user):
-        resp = self.get_user_profile('profile', default_user['data']['token'])
+        resp = self.get_user_profile('profile', default_user['data']['token'], base_api=base_api)
 
         assert resp['success'] is True
         assert resp['status'] == 200
@@ -16,7 +17,7 @@ class TestUserProfile(UserApi):
 
     @allure.feature('user_profile')
     def test_empty_auth_token(self):
-        resp = self.get_user_profile('profile', '')
+        resp = self.get_user_profile('profile', '', base_api=base_api)
 
         assert resp['success'] is False
         assert resp['status'] == 401
@@ -24,7 +25,7 @@ class TestUserProfile(UserApi):
 
     @allure.feature('user_profile')
     def test_invalid_auth_token(self):
-        resp = self.get_user_profile('profile', 'invalidToken')
+        resp = self.get_user_profile('profile', 'invalidToken', base_api=base_api)
 
         assert resp['success'] is False
         assert resp['status'] == 401

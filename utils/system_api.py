@@ -1,11 +1,10 @@
-from utils.base_api import BaseApi
-from utils.data_utils import fetch_endpoints
+from python_api.utils.data_utils import fetch_endpoints
 
 
-class SystemApi(BaseApi):
+class SystemApi:
     endpoints = fetch_endpoints()
 
-    def sys_check(self, endpoint):
+    def sys_check(self, endpoint, base_api):
         api_endpoint = self.endpoints[endpoint]
-        resp = self.get_req(api_endpoint)
+        resp = base_api.get_req(api_endpoint)
         return resp.json()

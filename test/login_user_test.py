@@ -1,9 +1,9 @@
 import random
-
 import allure
 
-from utils.data_utils import generate_string_data
-from utils.user_api import UserApi
+from python_api.conftest import base_api
+from python_api.utils.data_utils import generate_string_data
+from python_api.utils.user_api import UserApi
 
 
 class TestLoginUser(UserApi):
@@ -30,7 +30,7 @@ class TestLoginUser(UserApi):
                 "password": self.password
             }
 
-            resp = self.login_user('login', payload)
+            resp = self.login_user('login', payload, base_api=base_api)
 
             assert resp['success'] is False
             assert resp['status'] == 400
@@ -45,7 +45,7 @@ class TestLoginUser(UserApi):
                 "password": password
             }
 
-            resp = self.login_user('login', payload)
+            resp = self.login_user('login', payload, base_api=base_api)
 
             assert resp['success'] is False
             assert resp['status'] == 400
@@ -58,7 +58,7 @@ class TestLoginUser(UserApi):
             "password": 'incorrectPassword'
         }
 
-        resp = self.login_user('login', payload)
+        resp = self.login_user('login', payload, base_api=base_api)
 
         assert resp['success'] is False
         assert resp['status'] == 401

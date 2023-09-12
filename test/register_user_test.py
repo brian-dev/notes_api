@@ -1,9 +1,9 @@
 import random
-
 import allure
 
-from utils.data_utils import generate_string_data
-from utils.user_api import UserApi
+from python_api.conftest import base_api
+from python_api.utils.data_utils import generate_string_data
+from python_api.utils.user_api import UserApi
 
 
 class TestRegisterUser(UserApi):
@@ -24,7 +24,7 @@ class TestRegisterUser(UserApi):
             "password": self.password
         }
 
-        resp = self.register_new_user('register', payload)
+        resp = self.register_new_user('register', payload, base_api=base_api)
 
         assert resp['success'] is True
         assert resp['status'] == 201
@@ -40,8 +40,9 @@ class TestRegisterUser(UserApi):
             "password": self.password
         }
 
+        resp = None
         for _ in range(2):
-            resp = self.register_new_user('register', payload)
+            resp = self.register_new_user('register', payload, base_api=base_api)
 
         assert resp['success'] is False
         assert resp['status'] == 409
@@ -57,7 +58,7 @@ class TestRegisterUser(UserApi):
                 "password": self.password
             }
 
-            resp = self.register_new_user('register', payload)
+            resp = self.register_new_user('register', payload, base_api=base_api)
 
             assert resp['success'] is False
             assert resp['status'] == 400
@@ -73,7 +74,7 @@ class TestRegisterUser(UserApi):
                 "password": self.password
             }
 
-            resp = self.register_new_user('register', payload)
+            resp = self.register_new_user('register', payload, base_api=base_api)
 
             assert resp['success'] is False
             assert resp['status'] == 400
@@ -89,7 +90,7 @@ class TestRegisterUser(UserApi):
                 "password": password
             }
 
-            resp = self.register_new_user('register', payload)
+            resp = self.register_new_user('register', payload, base_api=base_api)
 
             assert resp['success'] is False
             assert resp['status'] == 400
