@@ -1,9 +1,9 @@
 import random
-
 import allure
 
-from utils.data_utils import generate_string_data, generate_number_data
-from utils.user_api import UserApi
+from python_api.conftest import base_api
+from python_api.utils.data_utils import generate_string_data, generate_number_data
+from python_api.utils.user_api import UserApi
 
 
 class TestUpdateUserProfile(UserApi):
@@ -20,7 +20,7 @@ class TestUpdateUserProfile(UserApi):
             'company': updated_company
         }
 
-        resp = self.update_user_profile('profile', payload, update_user['data']['token'])
+        resp = self.update_user_profile('profile', payload, update_user['data']['token'], base_api=base_api)
 
         assert resp['success'] is True
         assert resp['status'] == 200

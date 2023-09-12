@@ -1,9 +1,9 @@
 import random
-
 import allure
 
-from utils.note_api import NoteApi
-from utils.data_utils import generate_string_data
+from python_api.conftest import base_api
+from python_api.utils.note_api import NoteApi
+from python_api.utils.data_utils import generate_string_data
 
 
 class TestCreateNotes(NoteApi):
@@ -16,7 +16,7 @@ class TestCreateNotes(NoteApi):
 
         for cat in cat_vals:
             resp = self.create_note('notes', self.title, self.desc, cat, default_user[
-                'data']['token'])
+                'data']['token'], base_api=base_api)
 
             assert resp['success'] is True
             assert resp['status'] == 200
@@ -32,7 +32,7 @@ class TestCreateNotes(NoteApi):
 
         for title in title_vals:
             resp = self.create_note('notes', title, self.desc, 'Home', default_user['data'][
-                'token'])
+                'token'], base_api=base_api)
 
             assert resp['success'] is False
             assert resp['status'] == 400
@@ -44,7 +44,7 @@ class TestCreateNotes(NoteApi):
 
         for desc in desc_vals:
             resp = self.create_note('notes', self.title, desc, 'Home', default_user['data'][
-                'token'])
+                'token'], base_api=base_api)
 
             assert resp['success'] is False
             assert resp['status'] == 400
@@ -56,7 +56,7 @@ class TestCreateNotes(NoteApi):
 
         for cat in cat_vals:
             resp = self.create_note('notes', self.title, self.desc, cat, default_user['data'][
-                'token'])
+                'token'], base_api=base_api)
 
             assert resp['success'] is False
             assert resp['status'] == 400
@@ -64,7 +64,7 @@ class TestCreateNotes(NoteApi):
 
     @allure.feature('create_note')
     def test_create_note_empty_token(self):
-        resp = self.create_note('notes', self.title, self.desc, 'Home', '')
+        resp = self.create_note('notes', self.title, self.desc, 'Home', '', base_api=base_api)
 
         assert resp['success'] is False
         assert resp['status'] == 401
@@ -72,7 +72,7 @@ class TestCreateNotes(NoteApi):
 
     @allure.feature('create_note')
     def test_create_note_invalid_token(self):
-        resp = self.create_note('notes', self.title, self.desc, 'Home', 'invalidToken')
+        resp = self.create_note('notes', self.title, self.desc, 'Home', 'invalidToken', base_api=base_api)
 
         assert resp['success'] is False
         assert resp['status'] == 401

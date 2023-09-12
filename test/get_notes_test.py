@@ -1,9 +1,9 @@
 import random
-
 import allure
 
-from utils.data_utils import generate_string_data
-from utils.note_api import NoteApi
+from python_api.conftest import base_api
+from python_api.utils.data_utils import generate_string_data
+from python_api.utils.note_api import NoteApi
 
 
 class TestGetNotes(NoteApi):
@@ -12,7 +12,7 @@ class TestGetNotes(NoteApi):
 
     @allure.feature('get_note')
     def test_get_all_user_notes(self, default_user):
-        notes = self.get_all_notes('notes', default_user['data']['token'])
+        notes = self.get_all_notes('notes', default_user['data']['token'], base_api=base_api)
 
         assert notes['success'] is True
         assert notes['status'] == 200
@@ -20,7 +20,7 @@ class TestGetNotes(NoteApi):
 
     @allure.feature('get_note')
     def test_get_all_user_notes_empty_token(self, default_user):
-        notes = self.get_all_notes('notes', '')
+        notes = self.get_all_notes('notes', '', base_api=base_api)
 
         assert notes['success'] is False
         assert notes['status'] == 401
@@ -28,7 +28,7 @@ class TestGetNotes(NoteApi):
 
     @allure.feature('get_note')
     def test_get_all_user_notes_invalid_token(self, default_user):
-        notes = self.get_all_notes('notes', 'invalidToken')
+        notes = self.get_all_notes('notes', 'invalidToken', base_api=base_api)
 
         assert notes['success'] is False
         assert notes['status'] == 401
@@ -36,10 +36,11 @@ class TestGetNotes(NoteApi):
 
     @allure.feature('get_note')
     def test_get_note_by_id(self, default_user):
-        new_note = self.create_note('notes', self.title, self.desc, 'Work', default_user['data']['token'])
+        new_note = self.create_note('notes', self.title, self.desc, 'Work', default_user['data']['token'],
+                                    base_api=base_api)
         note_id = new_note['data']['id']
 
-        resp = self.get_note_by_id('notes', note_id, default_user['data']['token'])
+        resp = self.get_note_by_id('notes', note_id, default_user['data']['token'], base_api=base_api)
 
         assert resp['success'] is True
         assert resp['status'] == 200
@@ -51,10 +52,11 @@ class TestGetNotes(NoteApi):
 
     @allure.feature('get_note')
     def get_note_by_id_empty_token(self, default_user):
-        new_note = self.create_note('notes', self.title, self.desc, 'Work', default_user['data']['token'])
+        new_note = self.create_note('notes', self.title, self.desc, 'Work', default_user['data']['token'],
+                                    base_api=base_api)
         note_id = new_note['data']['id']
 
-        resp = self.get_note_by_id('notes', note_id, '')
+        resp = self.get_note_by_id('notes', note_id, '', base_api=base_api)
 
         assert resp['success'] is False
         assert resp['status'] == 401
@@ -62,10 +64,11 @@ class TestGetNotes(NoteApi):
 
     @allure.feature('get_note')
     def get_note_by_id_invalid_token(self, default_user):
-        new_note = self.create_note('notes', self.title, self.desc, 'Work', default_user['data']['token'])
+        new_note = self.create_note('notes', self.title, self.desc, 'Work', default_user['data']['token'],
+                                    base_api=base_api)
         note_id = new_note['data']['id']
 
-        resp = self.get_note_by_id('notes', note_id, 'invalidToken')
+        resp = self.get_note_by_id('notes', note_id, 'invalidToken', base_api=base_api)
 
         assert resp['success'] is False
         assert resp['status'] == 401
