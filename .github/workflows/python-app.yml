@@ -41,11 +41,12 @@ jobs:
         cd core-python
         pwd
         ls
+        mkdir ${{ github.event.repository.name }}
 
     - name: Clone project repository
       uses: actions/checkout@v3
       with:
-        path: core-python/
+        path: core-python/${{ github.event.repository.name }}
 
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
