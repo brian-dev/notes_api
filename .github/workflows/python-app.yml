@@ -22,6 +22,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    uses: brian-dev/core-python/.github/workflows/core-workflow.yml@main
     steps:
     - name: Create core directory
       run: |
@@ -29,9 +30,6 @@ jobs:
         cd core-python/
         pwd
         ls
-
-    - name: Clone core framework repository
-      uses: brian-dev/core-python/.github/workflows/core-workflow.yml@main
 
     - name: Working Dir
       run: |
