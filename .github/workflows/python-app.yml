@@ -26,7 +26,7 @@ jobs:
     - name: Create core directory
       run: |
         mkdir core-python
-        cd /core-python
+        cd core-python/
         pwd
         ls
 
