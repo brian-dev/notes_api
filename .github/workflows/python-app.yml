@@ -26,8 +26,10 @@ jobs:
     - name: Create core directory
       run: |
         mkdir core-python
-        cd core-python
-        
+        cd /core-python
+        pwd
+        ls
+
     - name: Clone core framework repository
       uses: actions/checkout@v3
       with:
