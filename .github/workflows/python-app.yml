@@ -31,7 +31,7 @@ jobs:
         ls
 
     - name: Clone core framework repository
-      uses: brian-dev/core-python/blob/main/.github/workflows/core-workflow.yml@main
+      uses: brian-dev/core-python/blob/main/.github/workflows/core-workflow.yml
 
     - name: Working Dir
       run: |
