@@ -38,7 +38,9 @@ jobs:
 
     - name: Working Dir
       run: |
+        cd core-python
         pwd
+        cd core-python
         ls
 
     - name: Clone project repository
