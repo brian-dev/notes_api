@@ -1,7 +1,7 @@
 # Demo API automation using PyTest
 
 
-[![Python application](https://github.com/brian-dev/pytest_api/actions/workflows/python-app.yml/badge.svg)](https://github.com/brian-dev/pytest_api/actions/workflows/python-app.yml)
+[![Python API Test Demo](https://github.com/brian-dev/pytest_api/actions/workflows/python-app.yml/badge.svg)](https://github.com/brian-dev/pytest_api/actions/workflows/python-app.yml)
 
 ## Project Overview
 This demo project is based on a simple notes web app. The app was designed for the sole purpose of learning and/or 
