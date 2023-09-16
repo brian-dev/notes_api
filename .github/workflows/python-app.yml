@@ -41,9 +41,9 @@ jobs:
       with:
         path: core-python/${{ github.event.repository.name }}
 
-    - name: Navigate to project repo
-      run: |
-        cd core-python/${{ github.event.repository.name }}
+#    - name: Navigate to project repo
+#      run: |
+#        cd core-python/${{ github.event.repository.name }}
 
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
