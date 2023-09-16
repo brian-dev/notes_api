@@ -73,7 +73,7 @@ jobs:
 
     - name: Test with pytest
       run: |
-        cd core-python
+        cd core-python/${{ github.event.repository.name }}
         pwd
         ls
         pytest
