@@ -27,8 +27,6 @@ jobs:
       run: |
         mkdir core-python
         cd core-python/
-        pwd
-        ls
 
     - name: Clone core framework repository
       uses: actions/checkout@v3
@@ -74,8 +72,6 @@ jobs:
     - name: Test with pytest
       run: |
         cd core-python/${{ github.event.repository.name }}
-        pwd
-        ls
         pytest
 
     - name: Get Allure history
