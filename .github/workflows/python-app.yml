@@ -36,13 +36,6 @@ jobs:
         repository: brian-dev/core-python
         path: core-python/
 
-    - name: Working Dir
-      run: |
-        cd core-python
-        pwd
-        ls
-        mkdir ${{ github.event.repository.name }}
-
     - name: Clone project repository
       uses: actions/checkout@v3
       with:
