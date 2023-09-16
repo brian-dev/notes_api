@@ -30,6 +30,6 @@ def generate_user_payload():
 
 
 def fetch_endpoints():
-    with open('./yaml/endpoints.yaml') as file_read:
-        file = yaml.load(file_read, Loader=yaml.FullLoader)
+    with open('yaml_files/endpoints.yaml') as file_read:
+        file = yaml.safe_load(file_read)
     return file['endpoints']
