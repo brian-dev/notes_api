@@ -1,9 +1,9 @@
 import random
 import allure
 
-from python_api.conftest import base_api
-from python_api.utils.note_api import NoteApi
-from python_api.utils.data_utils import generate_string_data
+from notes_api.conftest import base_api
+from notes_api.utils.note_api import NoteApi
+from notes_api.utils.data_utils import generate_string_data
 
 
 class TestCreateNotes(NoteApi):

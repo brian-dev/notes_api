@@ -7,13 +7,13 @@ current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
 sys.path.append(parent)
 
-from python_api.utils.data_utils import generate_user_payload
-import python_api.utils.system_api
-import python_api.utils.user_api
+from notes_api.utils.data_utils import generate_user_payload
+import notes_api.utils.system_api
+import notes_api.utils.user_api
 from core_framework.core import Core
 
-user_api = python_api.utils.user_api.UserApi()
-sys_api = python_api.utils.system_api.SystemApi()
+user_api = notes_api.utils.user_api.UserApi()
+sys_api = notes_api.utils.system_api.SystemApi()
 base_api = Core().initialize_core()
 test_user = generate_user_payload()
 update_user_creds = generate_user_payload()
