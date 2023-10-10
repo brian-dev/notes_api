@@ -2,6 +2,7 @@ endpoints:
   health: 'health-check'
   notes: 'notes'
   login: 'users/login'
+  logout: 'users/logout'
   register: 'users/register'
   profile: 'users/profile'
   delete: 'users/delete-account'

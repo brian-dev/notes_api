@@ -1,7 +1,7 @@
 import allure
 
-from python_api.conftest import base_api
-from python_api.utils.user_api import UserApi
+from notes_api.conftest import base_api
+from notes_api.utils.user_api import UserApi
 
 
 class TestUserProfile(UserApi):

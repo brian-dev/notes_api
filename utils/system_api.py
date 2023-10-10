@@ -1,4 +1,4 @@
-from python_api.utils.data_utils import fetch_endpoints
+from notes_api.utils.data_utils import fetch_endpoints
 
 
 class SystemApi:

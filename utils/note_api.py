@@ -1,4 +1,4 @@
-from python_api.utils.data_utils import fetch_endpoints
+from notes_api.utils.data_utils import fetch_endpoints
 
 
 class NoteApi:
@@ -32,5 +32,5 @@ class NoteApi:
         api_endpoint = self.endpoints[endpoint]
         note_endpoint = f"{api_endpoint}/{note_id}"
 
-        resp = base_api.del_req(note_endpoint, token)
+        resp = base_api.del_req_with_auth(note_endpoint, token)
         return resp.json()
