@@ -1,4 +1,5 @@
 import calendar
+import os
 import random
 import string
 import time
@@ -30,6 +31,9 @@ def generate_user_payload():
 
 
 def fetch_endpoints():
-    with open('yaml_files/endpoints.yaml') as file_read:
+    file_dir = __file__
+    parent_dir = os.path.split(file_dir)[0]
+    top_level_dir = os.path.split(parent_dir)[0]
+    with open(f"{top_level_dir}/yaml_files/endpoints.yaml") as file_read:
         file = yaml.safe_load(file_read)
     return file['endpoints']

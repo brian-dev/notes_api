@@ -15,7 +15,7 @@ class UserApi:
         return resp.json()
 
     def delete_user(self, endpoint, token, base_api):
-        resp = base_api.del_req(self.endpoints[endpoint], token)
+        resp = base_api.del_req_with_auth(self.endpoints[endpoint], token)
         if resp.status_code != 200:
             raise Exception(f"Request failed. {resp.json()}")
         return resp.json()
@@ -26,4 +26,8 @@ class UserApi:
 
     def update_user_profile(self, endpoint, payload, token, base_api):
         resp = base_api.patch_req_with_auth(self.endpoints[endpoint], payload, token)
+        return resp.json()
+
+    def logout_user(self, endpoint, token, base_api):
+        resp = base_api.del_req_with_auth(self.endpoints[endpoint], token)
         return resp.json()
